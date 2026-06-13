@@ -1,11 +1,22 @@
-# ignore _everything_ that gets placed into the mdi root folder
+# ignore _everything_ that gets placed into the rudi root folder
 /*
 
 # _except_ the files explicitly declared to be part of this installer repository
+!/bin/README.md
+!/config/
+!/containers/README.md
+!/data/README.md
 !/docs/
+!/environments/README.md
+!/frameworks/README.md
+!/remote/
+!/resources/README.md
+!/sessions/README.md
+!/suites/README.md
 !/_config.yml
 !/.gitignore
 !/index.html
 !/install.sh
 !/LICENSE
+!/rudi
 !/README.md

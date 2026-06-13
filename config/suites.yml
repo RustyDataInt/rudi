@@ -1,0 +1,14 @@
+---
+#----------------------------------------------------------------------
+# Tool suites to install
+#----------------------------------------------------------------------
+#   - entries must point to GitHub repositories
+#   - !! developers should _not_ list their repo forks here !!
+#   - when a pipeline/app name is found in multiple suites, the first match is used
+#----------------------------------------------------------------------
+# !! Re-run `rudi install` after manually updating this list !!
+# A better alternative is to run `rudi add --suite GIT_USER/SUITE_NAME`.
+#----------------------------------------------------------------------
+suites:
+  # - https://github.com/GIT_USER/SUITE_NAME.git
+  # - GIT_USER/SUITE_NAME # either format works

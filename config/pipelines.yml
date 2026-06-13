@@ -1,0 +1,18 @@
+---
+#--------------------------------------------------------------
+# Pipeline global variables and default options
+#--------------------------------------------------------------
+#   - typically constant for all pipeline jobs on a given server
+#   - can be overridden in lower level job configuration files
+#   - variables are available for use in lower level job configuration files
+#   - options are available as variables in the environment of running jobs
+#   - by convention variable names are ALL_UPPER_SNAKE_CASE
+#--------------------------------------------------------------
+variables:
+  # EXAMPLE_VAR: 123 # uncomment and edit to declare a variable that can be used later as $EXAMPLE_VAR
+
+# defaults options
+shared:
+  resources:
+    tmp-dir: /tmp
+    tmp-dir-large: /tmp

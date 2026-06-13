@@ -1,0 +1,110 @@
+#!/bin/sh
+
+# the main executable command line interface (CLI)
+
+#----------------------------------------------------------------------
+# base directory of the RuDI installation
+#----------------------------------------------------------------------
+RUDI_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
+export RUDI_DIR
+
+#----------------------------------------------------------------------
+# --develop and --help arguments to the CLI itself
+# if both used, --develop must precede --help
+#----------------------------------------------------------------------
+DEVELOPER_MODE=""
+export DEVELOPER_MODE
+TARGET=$1
+if [ "$TARGET" = "-d" ] || [ "$TARGET" = "--develop" ]; then 
+    DEVELOPER_MODE="TRUE"
+    export DEVELOPER_MODE
+    shift
+    TARGET=$1
+    DEVELOPER_FLAG="-d"
+fi
+if [ "$TARGET" = "-h" ] || [ "$TARGET" = "--help" ]; then 
+    TARGET=""
+fi
+
+#----------------------------------------------------------------------
+# parse job manager and pipeline paths
+#----------------------------------------------------------------------
+
+# use developer fork of rudi-pipelines-framework if present and in developer mode
+FRAMEWORK_DIR=$RUDI_DIR/frameworks/developer-forks/rudi-pipelines-framework
+if [ ! -d "$FRAMEWORK_DIR" ] || [ "$DEVELOPER_MODE" != "TRUE" ]; then 
+    FRAMEWORK_DIR=$RUDI_DIR/frameworks/definitive/rudi-pipelines-framework
+fi
+export FRAMEWORK_DIR
+
+# set script paths
+JOB_MANAGER_DIR=$FRAMEWORK_DIR/job_manager
+export JOB_MANAGER_DIR
+JOB_MANAGER_TARGET=$JOB_MANAGER_DIR/jobManager
+Q_TYPE_FILE=$JOB_MANAGER_DIR/qType
+JOB_MANAGER_COMMANDS=$(cd "$JOB_MANAGER_DIR/lib/commands" && ls -1 *.pl 2>/dev/null | cut -d '.' -f 1 | tr '\n' ' ')
+
+# set known pipelines
+PIPELINE_DIRS=$(ls -d "$RUDI_DIR"/suites/*/*/pipelines/*/ 2>/dev/null)
+export PIPELINE_DIRS
+
+#----------------------------------------------------------------------
+# support inverted call format, i.e., 'rudi data.yml COMMAND'
+#----------------------------------------------------------------------
+case "$TARGET" in
+    *.yml)
+        if [ -e "$TARGET" ]; then
+            shift
+            if [ "$1" = "" ]; then
+                echo ""
+                echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                echo "missing command"
+                echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                exec "$JOB_MANAGER_TARGET"
+            else 
+                exec "$RUDI_DIR/rudi" $DEVELOPER_FLAG "$@" "$TARGET"
+            fi
+        fi
+        ;;
+esac
+
+#----------------------------------------------------------------------
+# handle a direct call to initialize the job manager
+#----------------------------------------------------------------------
+if [ "$TARGET" = "initialize" ]; then
+    exec perl "$JOB_MANAGER_DIR/initialize.pl" "$RUDI_DIR"
+
+#----------------------------------------------------------------------
+# handle job manager functions (submit, report, etc.)
+# also handle CLI called with no arguments, i.e. a help request
+#----------------------------------------------------------------------
+elif [ "$TARGET" = "" ] || echo " $JOB_MANAGER_COMMANDS " | grep -q " $TARGET "; then
+    
+    # ensure that the job manager target script has been initialized
+    Q_TYPE=""
+    if [ "$MDI_IS_CONTAINER" != "TRUE" ]; then
+        if [ -e "$Q_TYPE_FILE" ]; then
+            Q_TYPE=$(cat "$Q_TYPE_FILE") # recovers cases when job scheduler wasn't discovered in prior initialize
+        fi
+        if [ ! -e "$JOB_MANAGER_TARGET" ] || [ "$Q_TYPE" = "" ]; then
+            perl "$JOB_MANAGER_DIR/initialize.pl" "$RUDI_DIR" suppressLog
+        fi
+    fi
+
+    # fork the call to the job manager utility (a close relative of 'q')
+    if [ -e "$JOB_MANAGER_TARGET" ]; then
+        if [ "$TARGET" = "" ]; then
+            exec "$JOB_MANAGER_TARGET" # various routes to top-level CLI help
+        else 
+            exec "$JOB_MANAGER_TARGET" "$@" # job manager call with a specified target
+        fi
+    fi
+
+#----------------------------------------------------------------------
+# capture and pass calls to a pipeline when using job manager as a surrogate
+# thus, pipelines cannot have the same name as a job manager command (submit, report, etc.)
+# launcher.pl handles pipeline target/rudi command errors
+#----------------------------------------------------------------------
+else
+    exec perl "$FRAMEWORK_DIR/pipeline/launcher/launcher.pl" "$@"
+fi
