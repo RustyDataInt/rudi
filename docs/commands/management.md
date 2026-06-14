@@ -7,11 +7,11 @@ nav_order: 10
 
 ## {{ page.title }}
 
-Here is the rest of the inline help from the `mdi` command - as you can see, 
-mdi subcommands apply to various activities of interest:
+Here is the rest of the inline help from the `rudi` command - as you can see, 
+rudi subcommands apply to various activities of interest:
 
 ```bash
-$ mdi
+$ rudi
 
 <continued>
 
@@ -39,31 +39,31 @@ available commands:
     purge       clear all status, script and log files associated with the job set
 
   server management:
-    initialize  refresh the 'mdi' script to establish its program targets
+    initialize  refresh the 'rudi' script to establish its program targets
     install     re-run the installation process to update suites, etc.
-    alias       create an alias, i.e., named shortcut, to this MDI program target
+    alias       create an alias, i.e., named shortcut, to this RuDI program target
     add         add one tool suite repository to config/suites.yml and re-install
-    list        list all pipelines and apps available in this MDI installation
+    list        list all pipelines and apps available in this RuDI installation
     unlock      remove all framework and suite repository locks, to reset after error
     build       build one container with all of a suite's pipelines and apps
-    server      launch the web server to use interactive Stage 2 apps
+    serve       launch the web server to use interactive Dioxus apps
 ```
 
 ### Installation (server) management
 
-Once it is installed the first time, the mdi utility has functions - 
+Once it is installed the first time, the RuDI CLI has functions - 
 like **install**, **add**, **list**, and **build** - 
 to help update and maintain the installation, see available pipelines,
 build Singularity containers (for developers), and more.
 
 ### Pipeline execution and monitoring
 
-You can use the mdi utility to execute installed pipelines 
+You can use the RuDI CLI to execute installed pipelines 
 synchronously in the command shell, e.g.:
 
 ```bash
 #execute 'myPipeline do' on myData.yml, overriding option '--my-option'
-mdi myPipeline do myData.yml --my-option 22
+rudi myPipeline do myData.yml --my-option 22
 ```
 
 However, more likely you will want to submit work
@@ -71,7 +71,7 @@ to your cluster server's job scheduler, e.g.:
 
 ```bash
 # similar to above, but defers execution to a cluster node
-mdi submit myData.yml --my-option 22
+rudi submit myData.yml --my-option 22
 ```
 
 Thus, a typical subcommand sequence to execute and monitor work might be:
@@ -94,9 +94,9 @@ Subcommands offer their own inline help when called with no options.
 As one example:
 
 ```bash
-$ mdi submit
+$ rudi submit
 
-mdi submit: queue all required data analysis jobs on the HPC server
+rudi submit: queue all required data analysis jobs on the HPC server
 
 available options:
   -d,--dry-run        check syntax and report actions to be taken; nothing will be queued or deleted

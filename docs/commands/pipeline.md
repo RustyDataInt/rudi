@@ -7,27 +7,27 @@ nav_order: 20
 
 ## {{ page.title }}
 
-Stage 1 Pipelines each have a set of 
+HPC pipelines each have a set of 
 **actions** - the staged units of work they are intended to accomplish,
 encoded in the pipeline's configuration - 
 and **subcommands** - pipeline-level management actions handled by the 
-MDI pipelines framework. 
+RuDI pipelines framework. 
 
 For example, here is the inline help for the `svCapture` pipeline.
 
 ```
-$ mdi svCapture
+$ rudi svCapture
 
->>> Michigan Data Interface (MDI): Stage 1 Pipelines <<<
+>>> Rusty Data Interface (RuDI): HPC Pipelines <<<
 
 svCapture: Characterize structural variant junctions in short-read, paired-end capture library(s)
 
 usage:
-  mdi svCapture <data.yml> [options]  # run all pipeline actions in data.yml
-  mdi svCapture <action> <data.yml> [options] # run one action from data.yml
-  mdi svCapture <action> <options>    # run one action, all options from command line
-  mdi svCapture <action> --help       # pipeline action help
-  mdi svCapture --help                # summarize pipeline actions
+  rudi svCapture <data.yml> [options]  # run all pipeline actions in data.yml
+  rudi svCapture <action> <data.yml> [options] # run one action from data.yml
+  rudi svCapture <action> <options>    # run one action, all options from command line
+  rudi svCapture <action> --help       # pipeline action help
+  rudi svCapture --help                # summarize pipeline actions
 
 pipeline specific actions:
   align          clean paired-end reads and align to reference genome; output name-sorted bam/cram
@@ -55,7 +55,7 @@ By default, when a pipeline has just one action it is called 'do',
 leading to calls like:
 
 ```
-mdi myPipeline do data.yml
+rudi myPipeline do data.yml
 ```
 
 ### Job configuration options and templates
@@ -67,7 +67,7 @@ for a pipeline for you to modify.
 
 ### Job runtime environments
 
-The MDI places a premium on consistent, controlled execution environments
+RuDI places a premium on consistent, controlled execution environments
 by using [conda](https://docs.conda.io/en/latest/). It goes like this.
 
 Developers list the software their pipeline needs in their configuration files. 
@@ -81,9 +81,3 @@ and upload pre-assembled Singularity containers carrying the required
 environment(s) and mark their pipelines as supporting containers 
 for users to download. Users must have Singularity available on their
 server capable of running (but not building) containers.
-
-Because most shared HPC servers do not support Singularity builds, 
-the MDI provides resources that make it easy for developers 
-to build containers on Amazon Web Services:
-
-- <https://github.com/MiDataInt/mdi-container-builder>

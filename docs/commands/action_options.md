@@ -11,7 +11,7 @@ Each **action** offered by a pipeline will have a rich set of available **option
 For example, here is the inline help for the `svCapture align` action.
 
 ```
-$ mdi svCapture align
+$ rudi svCapture align
 
 svCapture: Characterize structural variant junctions in short-read, paired-end capture library(s)
 
@@ -72,9 +72,9 @@ align: # the pipeline action
 
 ### Standard options
 
-Other options are either mandated or offered by the MDI pipelines framework
+Other options are either mandated or offered by the RuDI pipelines framework
 and automatically added to all pipeline actions. 
-Two are critically important as they are how all MDI pipelines know where to write their output files:
+Two are critically important as they are how all RuDI pipelines know where to write their output files:
 
 - **output-dir** = the destination directory for an analysis project
 - **data-name** = the sub-folder in `--output-dir` for each sample analyzed
@@ -97,7 +97,7 @@ would write output for two analyzed samples to folders:
 - /project/path/sample_2
 
 By the
-[MDI Code of Conduct](https://midataint.github.io/docs/registry/00_index/#mdi-developer-code-of-conduct),
+[Code of Conduct](https://rustydataint.github.io/docs/registry/00_index/#rudi-developer-code-of-conduct),
 pipelines are only allowed to write output files to `--output-dir`.
 
 Among other useful common options, `--dry-run` allows a 

@@ -6,7 +6,7 @@ nav_order: 40
 
 ## {{ page.title }}
 
-MDI pipeline executions are controlled by a job configuration file,
+RuDI pipeline executions are controlled by a job configuration file,
 i.e., a 'data.yml' file.  This versatile YAML-format script makes it easy
 to construct complex work sequences, including parallel array jobs and 
 serial actions.
@@ -27,8 +27,8 @@ or just proceed, it is intuitive and easy.
 To get a template to help you quickly write a new job configuration:
 
 ```bash
-mdi <pipelineName> template --help
-mdi <pipelineName> template
+rudi <pipelineName> template --help
+rudi <pipelineName> template
 ```
 
 ### Config file syntax
@@ -131,7 +131,7 @@ if you have option lists of different lengths.
 
 ### Options repeated in log files
 
-When you examine job log files with 'mdi report' you will find that
+When you examine job log files with 'rudi report' you will find that
 all job options are repeated back to you in YAML format, for an
 unambiguous, permanent record of what was done. You can turn this feature
 off with option '--quiet'.
@@ -159,12 +159,12 @@ execute:
     - actionY
 ```
 
-The net effect is like executing the same mdi subcommand on two
+The net effect is like executing the same rudi subcommand on two
 different data.yml files, except that now the declarations in 
 'variables' and 'shared' are available to both pipelines.
 
 Using this approach, you can can perform initial processing
 tasks with a first pipeline and continue with further processing
 with a second (or third...) pipeline, all with the convenience 
-of shared variables and mdi commands.
+of shared variables and rudi commands.
 
