@@ -34,9 +34,9 @@ You could also edit your shell files to modify the PATH variable.
 
 ## Configure and install tool suites
 
-The process above clones RuDI repositories
-that define the pipeline and app frameworks, but few actual
-tools. To install tools from any provider, use:
+The process above clones RuDI repositories that define the 
+pipeline and app frameworks, but few actual tools. To install 
+tools from any provider, use:
 
 ```sh
 rudi add --help
@@ -75,7 +75,8 @@ rudi --help
 
 While you can launch the app server using the CLI, it is much better 
 to use the [RuDI Desktop](https://rustydataint.github.io/rudi-desktop-app),
-which allows you to control both local and remote app servers.
+which allows you to control both local and remote app servers. See
+the Desktop page for complete installation and usage instructions.
 
 ## Install and use repository developer forks
 
@@ -103,8 +104,9 @@ rudi install --forks
 ```
 
 Finally, add the '--develop/-d' flag to your `rudi` calls, which will
-use any forked repositories from your GitHub account, or, if you have no forks,
-the tip of the main branch of the definitive repository (instead of a versioned release commit).
+use any forked repositories from your GitHub account, or, if you have 
+no forks, the tip of the main branch of the definitive repository 
+(instead of a versioned release commit).
 
 ```sh
 rudi -d ...
