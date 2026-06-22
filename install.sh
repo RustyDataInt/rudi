@@ -65,14 +65,14 @@ echo "initializing the command line interface"
 chmod ug+x rudi 
 
 # determine if there is an active git developer user
-GIT_USER_DEV=""
+GIT_OWNER_DEV=""
 if [ "$INSTALL_RUDI_FORKS" != "" ]; then
     if [ -f ~/gitCredentials.R ]; then
-        GIT_USER_DEV=$(cat ~/gitCredentials.R 2>/dev/null | grep GIT_USER | sed -e 's/.*GIT_USER\s*=\s*//' -e 's/[",]//g')
+        GIT_OWNER_DEV=$(cat ~/gitCredentials.R 2>/dev/null | grep GIT_OWNER | sed -e 's/.*GIT_OWNER\s*=\s*//' -e 's/[",]//g')
     fi
-    if [ "$GIT_USER_DEV" = "" ]; then
+    if [ "$GIT_OWNER_DEV" = "" ]; then
         echo ""
-        echo "!!! WARNING: Fork installation requested but ~/gitCredentials.R not found or does not specify GIT_USER !!!"
+        echo "!!! WARNING: Fork installation requested but ~/gitCredentials.R not found or does not specify GIT_OWNER !!!"
         echo "!!! See: https://rustydataint.github.io/docs/usage/development !!!"
         echo ""
     fi
@@ -84,9 +84,9 @@ PIPELINES_FRAMEWORK=rudi-pipelines-framework
 APPS_FRAMEWORK=rudi-apps-framework
 updateRepo "$RUDI_DIR/frameworks/definitive" "RustyDataInt/$PIPELINES_FRAMEWORK" latest
 updateRepo "$RUDI_DIR/frameworks/definitive" "RustyDataInt/$APPS_FRAMEWORK" latest
-if [ "$GIT_USER_DEV" != "" ]; then
-    updateRepo "$RUDI_DIR/frameworks/developer-forks" "$GIT_USER_DEV/$PIPELINES_FRAMEWORK" main
-    updateRepo "$RUDI_DIR/frameworks/developer-forks" "$GIT_USER_DEV/$APPS_FRAMEWORK" main
+if [ "$GIT_OWNER_DEV" != "" ]; then
+    updateRepo "$RUDI_DIR/frameworks/developer-forks" "$GIT_OWNER_DEV/$PIPELINES_FRAMEWORK" main
+    updateRepo "$RUDI_DIR/frameworks/developer-forks" "$GIT_OWNER_DEV/$APPS_FRAMEWORK" main
 fi
 
 # clone/pull any tool suites from config.yml
@@ -101,13 +101,13 @@ export SUITES
 
 for GIT_REPO in $SUITES; do 
     REPO_VERSION=latest # checkout latest unless a version-specific suite-centric build/install
-    if [ "$GIT_REPO" = "$GIT_USER/$SUITE_NAME" ] && [ "$SUITE_VERSION" != "" ]; then 
+    if [ "$GIT_REPO" = "$GIT_OWNER/$SUITE_NAME" ] && [ "$SUITE_VERSION" != "" ]; then 
         REPO_VERSION=$SUITE_VERSION
     fi
     updateRepo "$RUDI_DIR/suites/definitive" "$GIT_REPO" "$REPO_VERSION"
-    if [ "$GIT_USER_DEV" != "" ]; then
+    if [ "$GIT_OWNER_DEV" != "" ]; then
         REPO_NAME=${GIT_REPO##*/}
-        updateRepo "$RUDI_DIR/suites/developer-forks" "$GIT_USER_DEV/$REPO_NAME" main
+        updateRepo "$RUDI_DIR/suites/developer-forks" "$GIT_OWNER_DEV/$REPO_NAME" main
     fi
 done
 
@@ -131,9 +131,9 @@ DEPENDENCIES=$(
 )
 for GIT_REPO in $DEPENDENCIES; do 
     updateRepo "$RUDI_DIR/suites/definitive" "$GIT_REPO" latest
-    if [ "$GIT_USER_DEV" != "" ]; then
+    if [ "$GIT_OWNER_DEV" != "" ]; then
         REPO_NAME=${GIT_REPO##*/}
-        updateRepo "$RUDI_DIR/suites/developer-forks" "$GIT_USER_DEV/$REPO_NAME" main
+        updateRepo "$RUDI_DIR/suites/developer-forks" "$GIT_OWNER_DEV/$REPO_NAME" main
     fi
 done
 

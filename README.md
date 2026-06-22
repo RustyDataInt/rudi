@@ -91,7 +91,7 @@ by setting environment variable `GITHUB_PAT` or creating file '~/gitCredentials.
 gitCredentials <- list(
     USER_NAME  = "FirstName LastName",
     USER_EMAIL = "name@umich.edu",
-    GIT_USER   = "xxx",
+    GIT_OWNER   = "xxx",
     GITHUB_PAT = "xxx"
 )
 ```
