@@ -8,16 +8,20 @@
 # get input variables
 SERVER_PORT=$1    # must be a port number that matches the forwarded port
 RUDI_DIRECTORY=$2 # must be valid, as it was used to call this script
-DATA_DIRECTORY=$3
-DEVELOPER=$4
-REMOTE_DOMAIN=$5
+TOOL_SUITE=$3
+DATA_DIRECTORY=$4
+DEVELOPER=$5
+DIOXUS_CONTAINER=$6
+REMOTE_DOMAIN=$7
 REMOTE_MODE=remote
 
 # export variables
 export SERVER_PORT
 export RUDI_DIRECTORY
+export TOOL_SUITE
 export DATA_DIRECTORY
 export DEVELOPER
+export DIOXUS_CONTAINER
 export REMOTE_DOMAIN
 export REMOTE_MODE
 

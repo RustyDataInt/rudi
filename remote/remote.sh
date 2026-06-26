@@ -15,7 +15,7 @@ fi
 
 # set directories
 if [ "$DATA_DIRECTORY" = "" ]; then 
-    DATA_DIRECTORY=NULL
+    DATA_DIRECTORY=USE_DEFAULT
     export DATA_DIRECTORY
 fi
 
@@ -32,6 +32,7 @@ echo "$SEPARATOR"
 
 # launch the server
 exec "$RUDI_DIRECTORY/rudi" $DEV_FLAG serve \
-    --server-command "$REMOTE_MODE" \
+    --tool-suite "$TOOL_SUITE" \
     --data-dir "$DATA_DIRECTORY" \
-    --port "$SERVER_PORT"
+    --port "$SERVER_PORT" \
+    --dioxus-container "$DIOXUS_CONTAINER"
